@@ -8,7 +8,7 @@ Mockups of goodie ideas, not printable models. Vote for the one you want next on
 | ![webcam cover](webcam-cover.png) | /dev/null webcam cover | [#2](../../../issues/2) |
 | ![badge clip](badge-clip.png) | /dev/null badge clip | [#3](../../../issues/3) |
 | ![desk bin](desk-bin.png) | /dev/null desk bin | [#4](../../../issues/4) |
-| ![bookmark](bookmark.png) | /dev/null bookmark | [#5](../../../issues/5) |
+| ![bookmark](bookmark.png) | /dev/null bookmark, clipped on a page like a paperclip | [#5](../../../issues/5) |
 
 The `stl/` folder holds the mockup geometry, one STL per concept and filament (`<concept>-<filament>-<color>.stl`), as a
 starting point for modeling. These are not printable as is: the keycap has no stem, the badge clip has no clip
