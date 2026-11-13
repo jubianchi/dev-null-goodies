@@ -58,6 +58,7 @@ def _render(blender: str, args: argparse.Namespace, gcode: Path | None) -> int:
         str(width),
         str(height),
         str(gcode.resolve()) if gcode else "",
+        args.view,
     ]
     return subprocess.run(command, check=False, stdout=subprocess.DEVNULL).returncode
 
@@ -68,6 +69,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output", type=Path, help="output folder (default: images/ next to the 3MF)")
     parser.add_argument("--samples", type=int, default=128, help="Cycles samples per pixel (default: 128)")
     parser.add_argument("--resolution", type=_resolution, default=(1600, 900), help="WIDTHxHEIGHT (default: 1600x900)")
+    parser.add_argument(
+        "--view", choices=("three-quarter", "top"), default="three-quarter", help="camera view (default: three-quarter)"
+    )
     toolpaths = parser.add_mutually_exclusive_group()
     toolpaths.add_argument(
         "--toolpaths", action="store_true", help="slice with Bambu Studio and render one PNG per plate from the G-code"

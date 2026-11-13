@@ -4,7 +4,7 @@ from pathlib import Path
 
 import bpy
 import numpy as np
-from mathutils import Vector
+from mathutils import Quaternion, Vector
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -12,7 +12,10 @@ from bambu3mf import Model, Plate, read_project  # noqa: E402
 from toolpaths import parse_gcode, polylines, tube_mesh  # noqa: E402
 
 MILLIMETRE = 0.001
-VIEW_DIRECTION = Vector((0.35, -1.0, 1.1)).normalized()
+VIEW_DIRECTIONS = {
+    "three-quarter": Vector((0.35, -1.0, 1.1)).normalized(),
+    "top": Vector((0.0, 0.0, 1.0)),
+}
 FRAMING_MARGIN = 1.15
 MAX_ALBEDO = 0.8
 
@@ -149,8 +152,9 @@ def add_light(scene: bpy.types.Scene, name: str, direction: Vector, distance: fl
     scene.collection.objects.link(obj)
 
 
-def add_camera(scene: bpy.types.Scene, bounds: np.ndarray) -> None:
-    rotation = (-VIEW_DIRECTION).to_track_quat("-Z", "Y")
+def add_camera(scene: bpy.types.Scene, bounds: np.ndarray, direction: Vector) -> None:
+    vertical = abs(direction.z) > 0.999
+    rotation = Quaternion() if vertical else (-direction).to_track_quat("-Z", "Y")
     right = np.array(rotation @ Vector((1, 0, 0)))
     up = np.array(rotation @ Vector((0, 1, 0)))
     corners = np.array([[x, y, z] for x in bounds[:, 0] for y in bounds[:, 1] for z in bounds[:, 2]])
@@ -163,39 +167,42 @@ def add_camera(scene: bpy.types.Scene, bounds: np.ndarray) -> None:
     camera.data.ortho_scale = max(np.ptp(across), np.ptp(along) * aspect) * FRAMING_MARGIN
     camera.data.clip_end = 1000
     centre = right * (across.max() + across.min()) / 2 + up * (along.max() + along.min()) / 2
-    camera.location = Vector(centre.tolist()) + VIEW_DIRECTION * float(np.max(np.ptp(corners, axis=0))) * 10
+    camera.location = Vector(centre.tolist()) + direction * float(np.max(np.ptp(corners, axis=0))) * 10
     camera.rotation_euler = rotation.to_euler()
     scene.collection.objects.link(camera)
     scene.camera = camera
 
 
-def render_still(scene: bpy.types.Scene, bounds: np.ndarray, path: Path) -> None:
+def render_still(scene: bpy.types.Scene, bounds: np.ndarray, path: Path, direction: Vector) -> None:
     size = float(np.max(bounds[1] - bounds[0]))
     add_light(scene, "key", Vector((0.6, -0.8, 0.9)), size * 2, 150 * size**2, size * 0.5)
     add_light(scene, "fill", Vector((-1.0, -0.4, 0.6)), size * 2, 25 * size**2, size * 1.5)
-    add_camera(scene, bounds)
+    add_camera(scene, bounds, direction)
     scene.render.filepath = str(path)
     bpy.ops.render.render(write_still=True)
     print(path)
 
 
-def render(source: Path, output: Path, samples: int, width: int, height: int, gcode: Path | None) -> None:
+def render(
+    source: Path, output: Path, samples: int, width: int, height: int, gcode: Path | None, view: str
+) -> None:
     project = read_project(source)
+    direction = VIEW_DIRECTIONS[view]
     output.mkdir(parents=True, exist_ok=True)
     scene = setup_scene(samples, width, height)
     if gcode is None:
         for model in project.models:
             clear_scene()
             bounds = add_shapes(scene, model_shapes(model), project.filament_colours, merge=True)
-            render_still(scene, bounds, output / f"{model.name}.png")
+            render_still(scene, bounds, output / f"{model.name}.png", direction)
     else:
         for plate in project.plates:
             clear_scene()
             shapes = toolpath_shapes(gcode / f"plate_{plate.index}.gcode")
             bounds = add_shapes(scene, shapes, project.filament_colours, merge=False)
-            render_still(scene, bounds, output / f"{plate_image_name(plate)}.png")
+            render_still(scene, bounds, output / f"{plate_image_name(plate)}.png", direction)
 
 
 if __name__ == "__main__":
-    source, output, samples, width, height, gcode = sys.argv[sys.argv.index("--") + 1 :]
-    render(Path(source), Path(output), int(samples), int(width), int(height), Path(gcode) if gcode else None)
+    source, output, samples, width, height, gcode, view = sys.argv[sys.argv.index("--") + 1 :]
+    render(Path(source), Path(output), int(samples), int(width), int(height), Path(gcode) if gcode else None, view)

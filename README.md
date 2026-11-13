@@ -33,7 +33,12 @@ $ uv run scripts/render.py keychains/keychains.3mf       # writes keychains/imag
 $ uv run pytest
 ```
 
-`render.py` accepts `--resolution WIDTHxHEIGHT` (default `1600x900`) and `--samples N` (default `128`).
+`render.py` accepts `--resolution WIDTHxHEIGHT` (default `1600x900`), `--samples N` (default `128`) and
+`--view three-quarter|top` (default `three-quarter`). Flat goodies read better from the top:
+
+```console
+$ uv run scripts/render.py iron-on/iron-on.3mf --view top
+```
 
 Some goodies only show their look once sliced (e.g. coasters printed without top surface, so the infill pattern is
 visible). For those, `--toolpaths` slices the project with [Bambu Studio](https://bambulab.com/en/download/studio)

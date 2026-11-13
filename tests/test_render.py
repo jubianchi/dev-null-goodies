@@ -51,6 +51,52 @@ def test_renders_the_object_on_a_transparent_background(rendered: Path) -> None:
     assert alpha[45, 80] == 255
 
 
+def _opaque_aspect_ratio(path: Path) -> float:
+    with Image.open(path) as image:
+        alpha = np.asarray(image)[:, :, 3]
+    rows, columns = np.nonzero(alpha > 128)
+    return float(np.ptp(columns) + 1) / float(np.ptp(rows) + 1)
+
+
+@pytest.mark.parametrize(("view", "square"), [("top", True), ("three-quarter", False)])
+def test_renders_the_requested_view(tmp_path: Path, view: str, square: bool) -> None:
+    source = write_3mf(
+        tmp_path / "square.3mf",
+        [FixtureObject("square", [FixturePart("plate", transform="20 0 0 0 20 0 0 0 1 0 0 0")])],
+        ["#131313"],
+    )
+    output = tmp_path / "images"
+
+    assert main([str(source), "--output", str(output), "--samples", "4", "--resolution", "160x90", "--view", view]) == 0
+
+    assert (_opaque_aspect_ratio(output / "square.png") == pytest.approx(1, abs=0.1)) is square
+
+
+def test_top_view_keeps_the_back_of_the_object_at_the_top(tmp_path: Path) -> None:
+    source = write_3mf(
+        tmp_path / "marker.3mf",
+        [
+            FixtureObject(
+                "marker",
+                [
+                    FixturePart("plate", extruder=1, transform="20 0 0 0 20 0 0 0 1 0 0 0"),
+                    FixturePart("marker", extruder=2, transform="4 0 0 0 4 0 0 0 1 8 15 1"),
+                ],
+            )
+        ],
+        ["#131313", "#C42430"],
+    )
+    output = tmp_path / "images"
+    main([str(source), "--output", str(output), "--samples", "4", "--resolution", "160x90", "--view", "top"])
+
+    with Image.open(output / "marker.png") as image:
+        pixels = np.asarray(image.convert("RGBA")).astype(int)
+    red = (pixels[:, :, 0] > 2 * pixels[:, :, 1]) & (pixels[:, :, 0] > 60) & (pixels[:, :, 3] == 255)
+    rows = np.nonzero(red)[0]
+
+    assert rows.mean() < pixels.shape[0] / 2
+
+
 def _reddish(path: Path) -> NDArray[np.bool_]:
     with Image.open(path) as image:
         pixels = np.asarray(image.convert("RGBA")).reshape(-1, 4).astype(int)
