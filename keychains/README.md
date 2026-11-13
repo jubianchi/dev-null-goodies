@@ -3,7 +3,7 @@
 > Everything you write to /dev/null disappears. Your keys won't.
 
 ![/dev/null keychain](images/hero.png)
-<!-- TODO(add keychain/images/hero.png) -->
+<!-- TODO(add keychains/images/hero.png) -->
 
 [Print it on MakerWorld](TODO(MakerWorld URL))
 
@@ -17,7 +17,7 @@
 
 | File | Description |
 | --- | --- |
-| `keychain.3mf` | TODO(describe: Bambu Studio project with plates and colors) |
+| `keychains.3mf` | TODO(describe: Bambu Studio project with plates and colors) |
 | `stl/*.stl` | TODO(describe: one STL per part/color, for other slicers) |
 
 ## Print settings
@@ -34,4 +34,4 @@
 
 Community prints will show up here. Send yours through an issue or a pull request.
 
-<!-- TODO(add community print photos in keychain/images/) -->
+<!-- TODO(add community print photos in keychains/images/) -->
