@@ -20,7 +20,7 @@ are made from the sliced toolpaths, so they show what comes out of the printer.
 | File | Description |
 | --- | --- |
 | `coasters.3mf` | Bambu Studio project: one plate per coaster, colors and per-part settings already assigned |
-| `stl/*.stl` | One STL per coaster, for other slicers, generated from `coasters.3mf` |
+| `stl/*.stl` | One STL per coaster and filament, for other slicers, generated from `coasters.3mf` |
 | `images/*.png` | One render per coaster, generated from the sliced `coasters.3mf` |
 | `MAKERWORLD.md` | Description posted on MakerWorld |
 
@@ -38,6 +38,6 @@ are made from the sliced toolpaths, so they show what comes out of the printer.
 | Print time | ~2 h, as estimated by Bambu Studio |
 | Filament | ~48 g |
 
-The top shell and infill settings only apply to the coaster body, the logo keeps a regular top surface. The STL files
-merge the body and the logo into a single body, so they lose both the colors and these per-part settings: use the 3MF
-for the intended look.
+The top shell and infill settings only apply to the coaster body (`*-1-black.stl` for the dark coaster,
+`*-3-white.stl` for the light one), the logo keeps a regular top surface. STL files cannot carry these per-part
+settings: set them on the body part in your slicer, or use the 3MF.
