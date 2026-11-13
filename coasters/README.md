@@ -33,10 +33,10 @@ are made from the sliced toolpaths, so they show what comes out of the printer.
 | Top shell layers | 0 (coaster body only) |
 | Infill | 10 % Hilbert curve (coaster body only) |
 | Supports | None |
-| Colors | 3 PLA (black `#131313`, red `#C42430`, white `#ECECEB`): AMS, or filament swaps |
+| Colors | 3 PLA (Basic black `#000000`, Matte red `#BB3D43`, Matte white `#FFFFFF`): AMS, or filament swaps |
 | Size | Ø 120 mm, 5 mm thick |
 | Print time | ~2 h, as estimated by Bambu Studio |
-| Filament | ~48 g |
+| Filament | ~55 g |
 
 The top shell and infill settings only apply to the coaster body (`*-1-black.stl` for the dark coaster,
 `*-3-white.stl` for the light one), the logo keeps a regular top surface. STL files cannot carry these per-part
