@@ -14,12 +14,13 @@ from toolpaths import parse_gcode, polylines, tube_mesh  # noqa: E402
 MILLIMETRE = 0.001
 VIEW_DIRECTION = Vector((0.35, -1.0, 1.1)).normalized()
 FRAMING_MARGIN = 1.15
+MAX_ALBEDO = 0.8
 
 
 def srgb_to_linear(hex_colour: str) -> tuple[float, float, float, float]:
     srgb = np.array([int(hex_colour.lstrip("#")[i : i + 2], 16) / 255 for i in (0, 2, 4)])
     linear = np.where(srgb <= 0.04045, srgb / 12.92, ((srgb + 0.055) / 1.055) ** 2.4)
-    return (*linear.tolist(), 1.0)
+    return (*np.minimum(linear, MAX_ALBEDO).tolist(), 1.0)
 
 
 def clear_scene() -> None:
