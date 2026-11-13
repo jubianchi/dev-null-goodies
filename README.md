@@ -20,12 +20,17 @@ More goodies may land here later. Stickers and coasters are still in the staging
 
 ## Tooling
 
-The STL files are generated from the `.3mf` projects. The tooling requires [uv](https://docs.astral.sh/uv/).
+The STL files and the renders are generated from the `.3mf` projects. The tooling requires
+[uv](https://docs.astral.sh/uv/), and the renders require [Blender](https://www.blender.org/) (found on the `PATH`, in
+`/Applications` on macOS, or through the `BLENDER` environment variable).
 
 ```console
-$ uv run scripts/export_stl.py keychains/keychains.3mf
+$ uv run scripts/export_stl.py keychains/keychains.3mf   # writes keychains/stl/<object>.stl
+$ uv run scripts/render.py keychains/keychains.3mf       # writes keychains/images/<object>.png
 $ uv run pytest
 ```
+
+`render.py` accepts `--resolution WIDTHxHEIGHT` (default `1600x900`) and `--samples N` (default `128`).
 
 ## Changelog
 

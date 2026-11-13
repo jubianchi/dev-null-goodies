@@ -6,7 +6,10 @@ requires-python = ">=3.12"
 dependencies = ["numpy>=2"]
 
 [dependency-groups]
-dev = ["pytest>=8"]
+dev = [
+    "pillow>=13.0.0",
+    "pytest>=8",
+]
 
 [tool.uv]
 package = false
