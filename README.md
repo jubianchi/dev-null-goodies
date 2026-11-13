@@ -17,7 +17,9 @@ More goodies may land here later. Stickers are still in the staging area.
 ## Printing
 
 - Each goodie ships a `.3mf` file with ready-to-print Bambu Studio plates and colors.
-- Each goodie also has a `stl/` folder for other slicers, with one STL per object.
+- Each goodie also has a `stl/` folder for other slicers, with one STL per object and filament, named
+  `<object>-<filament>-<color>.stl`. Import the STLs of an object together as parts of a single object and assign each
+  one its filament: they share the same origin, so they line up, and they never overlap.
 
 ## Tooling
 
@@ -26,7 +28,7 @@ The STL files and the renders are generated from the `.3mf` projects. The toolin
 `/Applications` on macOS, or through the `BLENDER` environment variable).
 
 ```console
-$ uv run scripts/export_stl.py keychains/keychains.3mf   # writes keychains/stl/<object>.stl
+$ uv run scripts/export_stl.py keychains/keychains.3mf   # writes keychains/stl/<object>-<filament>-<color>.stl
 $ uv run scripts/render.py keychains/keychains.3mf       # writes keychains/images/<object>.png
 $ uv run pytest
 ```
