@@ -27,17 +27,15 @@ your messages to the log instead of tweeting them.
 | Infill | 15 % |
 | Supports | None |
 | Colors | 3 PLA (black, red, white): AMS, or filament swaps |
-| Print time | TODO(print time per plate) |
+| Print time | ~42 min (large), ~28 min (small) |
+| Filament | ~12.5 g (large), ~8.3 g (small) |
 
 ## Changelog
 
-```console
-$ git log --oneline
-TODO(first release commit) feat: initial commit
-```
+Every change is tracked on [GitHub](https://github.com/jubianchi/dev-null-goodies/releases).
 
 ## Show your print
 
-Printed one? Post a photo here and on /dev/null. Tag TODO(@handle) and it lands in the log, not in the void.
+Printed one? Post a photo here and on /dev/null. Tag @jubianchi and it lands in the log, not in the void.
 
 Unofficial, fan-made model. /dev/null is an open-source project built by its community.

@@ -17,7 +17,7 @@
 
 | File | Description |
 | --- | --- |
-| `keychains.3mf` | TODO(describe: Bambu Studio project with plates and colors) |
+| `keychains.3mf` | Bambu Studio project: one plate per keychain, colors already assigned |
 | `stl/*.stl` | One STL per keychain, for other slicers, generated from `keychains.3mf` |
 | `images/*.png` | One render per keychain, generated from `keychains.3mf` |
 | `MAKERWORLD.md` | Description posted on MakerWorld |
@@ -26,11 +26,13 @@
 
 | Setting | Value |
 | --- | --- |
-| Layer height | TODO(layer height) |
-| Infill | TODO(infill) |
+| Profile | 0.20mm Standard @BBL H2S |
+| Layer height | 0.2 mm |
+| Infill | 15 % |
 | Supports | None |
-| Colors | TODO(2 colors: AMS or filament swap at layer X) |
-| Print time | TODO(print time) |
+| Colors | 3 PLA (black `#131313`, red `#C42430`, white `#ECECEB`): AMS, or filament swaps |
+| Print time | ~42 min (large), ~28 min (small), as estimated by Bambu Studio |
+| Filament | ~12.5 g (large), ~8.3 g (small) |
 
 ## Photos
 

@@ -37,20 +37,15 @@ $ uv run pytest
 The changelog is the git history, and printable milestones are tagged as
 [GitHub Releases](../../releases).
 
-```console
-$ git log --oneline
-TODO(first release commit) feat: add the keychain
-```
-
 ## Contributing
 
 Remixes, new variants and photos of your prints are welcome: open an issue or a pull request.
 
-Printed one? Commit it to the log on [/dev/null](https://dev-null.sh) and tag TODO(@handle).
+Printed one? Commit it to the log on [/dev/null](https://dev-null.sh) and tag @jubianchi.
 
 ## License
 
 The models are licensed under [CC BY-SA 4.0](LICENSE).
 
 The /dev/null name and logo belong to the /dev/null project. This is an unofficial fan project, not affiliated with or
-endorsed by it. TODO(confirm logo use with /dev/null maintainers)
+endorsed by it. The logo is used in line with the [/dev/null brand guidelines](https://dev-null.sh/brand).
