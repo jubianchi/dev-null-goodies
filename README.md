@@ -59,7 +59,15 @@ Printed one? Commit it to the log on [/dev/null](https://dev-null.sh) and tag @j
 
 ## License
 
-The models are licensed under [CC BY-SA 4.0](LICENSE).
+This repository holds three kinds of content, under different terms:
 
-The /dev/null name and logo belong to the /dev/null project. This is an unofficial fan project, not affiliated with or
-endorsed by it. The logo is used in line with the [/dev/null brand guidelines](https://dev-null.sh/brand).
+| Content | License |
+| --- | --- |
+| Models: `.3mf` projects, STL files, renders and descriptions | [CC BY-NC-SA 4.0](LICENSE) |
+| Code: `scripts/`, `tests/` and the Python project files | [MIT](LICENSE-MIT) |
+| The /dev/null name and logo | Not licensed by this repository, see below |
+
+The /dev/null name and logo belong to the /dev/null project, and all rights to them are reserved by their owners: neither
+license above covers them. This is an unofficial fan project, not affiliated with or endorsed by /dev/null. The logo is
+used in line with the [/dev/null brand guidelines](https://dev-null.sh/brand) and the
+[/dev/null terms](https://dev-null.sh/terms).
