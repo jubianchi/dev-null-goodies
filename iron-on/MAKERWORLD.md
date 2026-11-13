@@ -8,7 +8,7 @@ commit your messages to the log instead of tweeting them.
 ## Why you need one
 
 - Instant nerd cred at meetups, conferences and on-call handovers. People who get it, get it.
-- One layer, a few minutes, and any t-shirt becomes merch.
+- Two thin layers, a few minutes, and any t-shirt becomes merch.
 - TODO(third argument)
 
 ## What's in the 3MF
@@ -18,7 +18,12 @@ commit your messages to the log instead of tweeting them.
 
 ## How to iron it on
 
-TODO(short version of the ironing steps from the README)
+1. Before removing the print from the plate, cover it with transfer or painter's tape to keep the pieces aligned.
+2. Place the t-shirt flat and position the logo, clean side facing up.
+3. Hold it with heat-resistant tape (e.g. Kapton) and remove the transfer or painter's tape.
+4. Cover with baking/parchment paper.
+5. Press with a hot iron (no steam) for 15–20 seconds, moving evenly for larger designs.
+6. Let it cool slightly and remove the paper and the tape.
 
 ## Changelog
 

@@ -41,9 +41,18 @@ The /dev/null logo and wordmark printed in two 0.08 mm layers, then ironed onto 
 
 ## Ironing it on
 
-1. TODO(placement: e.g. print side against the fabric, baking paper on top)
-2. TODO(iron temperature and setting)
-3. TODO(pressure and duration)
-4. TODO(cooling and peeling)
+The logo is made of separate pieces (slashes and letters). Keep them together from the build plate to the t-shirt:
+
+1. While the print is still on the build plate, cover its clean (top) side with transfer tape or painter's tape, then
+   peel everything off the plate at once.
+2. Place the t-shirt flat and position the logo, clean side facing up (the tape stays on top).
+3. Hold it in place with a few strips of heat-resistant tape (e.g. Kapton) on the edges, then peel off the transfer or
+   painter's tape, which is not meant to go under the iron.
+4. Cover with baking/parchment paper.
+5. Press with a hot iron (no steam) for 15–20 seconds. Move evenly for larger designs.
+6. Let it cool slightly, then remove the paper and the heat-resistant tape.
+
+> [!NOTE]
+> The tape method still has to be validated with a test print.
 
 TODO(washing advice)
