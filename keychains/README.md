@@ -2,16 +2,16 @@
 
 > Everything you write to /dev/null disappears. Your keys won't.
 
-![/dev/null keychain](images/hero.png)
-<!-- TODO(add keychains/images/hero.png) -->
+![/dev/null keychain](images/keychain-large-dark.png)
 
 [Print it on MakerWorld](TODO(MakerWorld URL))
 
 ## Variants
 
-- TODO(variant: logo only)
-- TODO(variant: logo + ring)
-- TODO(variant: double-sided)
+| | Dark | Light |
+| --- | --- | --- |
+| Large | ![keychain-large-dark](images/keychain-large-dark.png) | ![keychain-large-light](images/keychain-large-light.png) |
+| Small | ![keychain-small-dark](images/keychain-small-dark.png) | ![keychain-small-light](images/keychain-small-light.png) |
 
 ## Files
 
@@ -19,6 +19,7 @@
 | --- | --- |
 | `keychains.3mf` | TODO(describe: Bambu Studio project with plates and colors) |
 | `stl/*.stl` | One STL per keychain, for other slicers, generated from `keychains.3mf` |
+| `images/*.png` | One render per keychain, generated from `keychains.3mf` |
 
 ## Print settings
 

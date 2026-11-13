@@ -9,7 +9,7 @@ network where developers commit messages to the log ([source code](https://githu
 
 | Preview | Goodie | Description | Print it |
 | --- | --- | --- | --- |
-| ![/dev/null keychains](keychains/images/hero.png) <!-- TODO(add keychains/images/hero.png) --> | [Keychains](keychains/) | The /dev/null logo, on your keys. | [Print it on MakerWorld](TODO(MakerWorld URL)) |
+| ![/dev/null keychains](keychains/images/keychain-large-dark.png) | [Keychains](keychains/) | The /dev/null logo, on your keys. | [Print it on MakerWorld](TODO(MakerWorld URL)) |
 
 More goodies may land here later. Stickers and coasters are still in the staging area.
 
