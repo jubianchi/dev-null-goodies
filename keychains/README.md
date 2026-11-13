@@ -33,9 +33,3 @@
 | Colors | 3 PLA (black `#131313`, red `#C42430`, white `#ECECEB`): AMS, or filament swaps |
 | Print time | ~42 min (large), ~28 min (small), as estimated by Bambu Studio |
 | Filament | ~12.5 g (large), ~8.3 g (small) |
-
-## Photos
-
-Community prints will show up here. Send yours through an issue or a pull request.
-
-<!-- TODO(add community print photos in keychains/images/) -->
