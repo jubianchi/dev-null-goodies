@@ -18,7 +18,7 @@
 | File | Description |
 | --- | --- |
 | `keychains.3mf` | TODO(describe: Bambu Studio project with plates and colors) |
-| `stl/*.stl` | TODO(describe: one STL per part/color, for other slicers) |
+| `stl/*.stl` | One STL per keychain, for other slicers, generated from `keychains.3mf` |
 
 ## Print settings
 
