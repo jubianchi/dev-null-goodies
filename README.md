@@ -37,7 +37,7 @@ $ uv run pytest
 `--view three-quarter|top` (default `three-quarter`). Flat goodies read better from the top:
 
 ```console
-$ uv run scripts/render.py iron-on/iron-on.3mf --view top
+$ uv run scripts/render.py <goodie>/<goodie>.3mf --view top
 ```
 
 Some goodies only show their look once sliced (e.g. coasters printed without top surface, so the infill pattern is
