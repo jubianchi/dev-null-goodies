@@ -48,8 +48,8 @@ $ uv run scripts/render.py coasters/coasters.3mf --toolpaths
 
 ## Changelog
 
-The changelog is the git history, and printable milestones are tagged as
-[GitHub Releases](../../releases).
+The changelog is the [git history](../../commits/main): there are no releases, the `main` branch is always the latest
+version.
 
 ## Contributing
 

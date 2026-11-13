@@ -18,7 +18,7 @@ your messages to the log instead of tweeting them.
 
 ## Changelog
 
-Every change is tracked on [GitHub](https://github.com/jubianchi/dev-null-goodies/releases).
+Every change is tracked on [GitHub](https://github.com/jubianchi/dev-null-goodies/commits/main/coasters).
 
 ## Show your print
 
