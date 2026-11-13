@@ -13,7 +13,7 @@ commit your messages to the log instead of tweeting them.
 
 ## What's in the 3MF
 
-- TODO(variants)
+- 2 transfers, one per plate: dark (for light fabrics) or light (for dark fabrics)
 - Plates ready to slice, colors already assigned
 
 ## How to iron it on
