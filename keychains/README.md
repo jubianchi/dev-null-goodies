@@ -20,6 +20,7 @@
 | `keychains.3mf` | TODO(describe: Bambu Studio project with plates and colors) |
 | `stl/*.stl` | One STL per keychain, for other slicers, generated from `keychains.3mf` |
 | `images/*.png` | One render per keychain, generated from `keychains.3mf` |
+| `MAKERWORLD.md` | Description posted on MakerWorld |
 
 ## Print settings
 
