@@ -2,7 +2,10 @@
 
 > Pipe your coffee to /dev/null. It won't leak.
 
-![/dev/null coaster](images/coaster-dark.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/coaster-light.png">
+  <img alt="/dev/null coaster" src="images/coaster-dark.png">
+</picture>
 
 [Print it on MakerWorld](TODO(MakerWorld URL))
 

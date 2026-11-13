@@ -9,8 +9,8 @@ network where developers commit messages to the log ([source code](https://githu
 
 | Preview | Goodie | Description | Print it |
 | --- | --- | --- | --- |
-| ![/dev/null keychains](keychains/images/keychain-large-dark.png) | [Keychains](keychains/) | The /dev/null logo, on your keys. | [Print it on MakerWorld](TODO(MakerWorld URL)) |
-| ![/dev/null coasters](coasters/images/coaster-dark.png) | [Coasters](coasters/) | The /dev/null logo, under your mug. | [Print it on MakerWorld](TODO(MakerWorld URL)) |
+| <picture><source media="(prefers-color-scheme: dark)" srcset="keychains/images/keychain-large-light.png"><img alt="/dev/null keychains" src="keychains/images/keychain-large-dark.png"></picture> | [Keychains](keychains/) | The /dev/null logo, on your keys. | [Print it on MakerWorld](TODO(MakerWorld URL)) |
+| <picture><source media="(prefers-color-scheme: dark)" srcset="coasters/images/coaster-light.png"><img alt="/dev/null coasters" src="coasters/images/coaster-dark.png"></picture> | [Coasters](coasters/) | The /dev/null logo, under your mug. | [Print it on MakerWorld](TODO(MakerWorld URL)) |
 
 More goodies may land here later. Stickers are still in the staging area.
 

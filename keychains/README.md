@@ -2,7 +2,10 @@
 
 > Everything you write to /dev/null disappears. Your keys won't.
 
-![/dev/null keychain](images/keychain-large-dark.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/keychain-large-light.png">
+  <img alt="/dev/null keychain" src="images/keychain-large-dark.png">
+</picture>
 
 [Print it on MakerWorld](TODO(MakerWorld URL))
 
