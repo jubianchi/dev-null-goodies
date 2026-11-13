@@ -1,0 +1,16 @@
+[project]
+name = "dev-null-goodies"
+version = "0.1.0"
+description = "Tooling for the /dev/null printable goodies"
+requires-python = ">=3.12"
+dependencies = ["numpy>=2"]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["scripts"]
+testpaths = ["tests"]

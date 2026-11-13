@@ -16,7 +16,16 @@ More goodies may land here later. Stickers and coasters are still in the staging
 ## Printing
 
 - Each goodie ships a `.3mf` file with ready-to-print Bambu Studio plates and colors.
-- Each goodie also has a `stl/` folder for other slicers.
+- Each goodie also has a `stl/` folder for other slicers, with one STL per object.
+
+## Tooling
+
+The STL files are generated from the `.3mf` projects. The tooling requires [uv](https://docs.astral.sh/uv/).
+
+```console
+$ uv run scripts/export_stl.py keychains/keychains.3mf
+$ uv run pytest
+```
 
 ## Changelog
 
