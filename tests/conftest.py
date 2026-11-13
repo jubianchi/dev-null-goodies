@@ -59,7 +59,12 @@ def _mesh_xml(part: FixturePart, object_id: int) -> str:
     )
 
 
-def write_3mf(path: Path, objects: list[FixtureObject], filament_colours: list[str]) -> Path:
+def write_3mf(
+    path: Path,
+    objects: list[FixtureObject],
+    filament_colours: list[str],
+    plates: list[tuple[str, list[str]]] | None = None,
+) -> Path:
     ns = (
         'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
         'xmlns:p="http://schemas.microsoft.com/3dmanufacturing/production/2015/06"'
@@ -69,6 +74,7 @@ def write_3mf(path: Path, objects: list[FixtureObject], filament_colours: list[s
     items: list[str] = []
     settings: list[str] = []
     sub_models: dict[str, str] = {}
+    object_ids: dict[str, int] = {}
 
     for obj in objects:
         sub_path = f"3D/Objects/object_{next_id}.model"
@@ -88,6 +94,7 @@ def write_3mf(path: Path, objects: list[FixtureObject], filament_colours: list[s
                 f'<metadata key="name" value="{part.name}"/>{extruder}</part>'
             )
         object_id = next_id
+        object_ids[obj.name] = object_id
         next_id += 1
         sub_models[sub_path] = f'<?xml version="1.0"?><model {ns}><resources>{"".join(meshes)}</resources></model>'
         resources.append(f'<object id="{object_id}" type="model"><components>{"".join(components)}</components></object>')
@@ -95,6 +102,16 @@ def write_3mf(path: Path, objects: list[FixtureObject], filament_colours: list[s
         settings.append(
             f'<object id="{object_id}"><metadata key="name" value="{obj.name}"/>'
             f'<metadata key="extruder" value="{obj.extruder}"/>{"".join(parts_settings)}</object>'
+        )
+
+    for index, (plate_name, plate_objects) in enumerate(plates or [], start=1):
+        instances = "".join(
+            f'<model_instance><metadata key="object_id" value="{object_ids[name]}"/></model_instance>'
+            for name in plate_objects
+        )
+        settings.append(
+            f'<plate><metadata key="plater_id" value="{index}"/>'
+            f'<metadata key="plater_name" value="{plate_name}"/>{instances}</plate>'
         )
 
     main_model = (

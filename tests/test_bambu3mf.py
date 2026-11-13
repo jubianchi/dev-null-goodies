@@ -97,6 +97,22 @@ def test_mirroring_keeps_triangles_facing_outward(tmp_path: Path) -> None:
     assert (outward > 0).all()
 
 
+def test_reads_plates_and_their_objects(tmp_path: Path) -> None:
+    path = write_3mf(
+        tmp_path / "p.3mf",
+        [FixtureObject("a", [FixturePart("plate")]), FixtureObject("b", [FixturePart("plate")])],
+        ["#000000"],
+        plates=[("second-plate", ["b"]), ("first-plate", ["a", "b"])],
+    )
+
+    plates = read_project(path).plates
+
+    assert [(plate.index, plate.name, plate.objects) for plate in plates] == [
+        (1, "second-plate", ("b",)),
+        (2, "first-plate", ("a", "b")),
+    ]
+
+
 def test_rejects_non_3mf_files(tmp_path: Path) -> None:
     path = tmp_path / "p.3mf"
     path.write_text("not a zip")

@@ -30,9 +30,17 @@ class Model:
 
 
 @dataclass(frozen=True)
+class Plate:
+    index: int
+    name: str
+    objects: tuple[str, ...]
+
+
+@dataclass(frozen=True)
 class Project:
     models: tuple[Model, ...]
     filament_colours: tuple[str, ...]
+    plates: tuple[Plate, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -119,4 +127,13 @@ def read_project(path: Path) -> Project:
                 )
             models.append(Model(name=_metadata(obj_settings, "name") or object_id, parts=tuple(parts)))
 
-    return Project(models=tuple(models), filament_colours=tuple(colours))
+    names = {object_id: _metadata(obj, "name") or object_id for object_id, obj in objects_settings.items()}
+    plates = tuple(
+        Plate(
+            index=int(_metadata(plate, "plater_id") or position),
+            name=_metadata(plate, "plater_name") or "",
+            objects=tuple(names[_metadata(instance, "object_id")] for instance in plate.findall("model_instance")),
+        )
+        for position, plate in enumerate(settings.findall("plate"), start=1)
+    )
+    return Project(models=tuple(models), filament_colours=tuple(colours), plates=plates)

@@ -32,6 +32,17 @@ $ uv run pytest
 
 `render.py` accepts `--resolution WIDTHxHEIGHT` (default `1600x900`) and `--samples N` (default `128`).
 
+Some goodies only show their look once sliced (e.g. coasters printed without top surface, so the infill pattern is
+visible). For those, `--toolpaths` slices the project with [Bambu Studio](https://bambulab.com/en/download/studio)
+(found on the `PATH`, in `/Applications` on macOS, or through the `BAMBU_STUDIO` environment variable) and renders the
+G-code toolpaths, one image per plate:
+
+```console
+$ uv run scripts/render.py coasters/coasters.3mf --toolpaths
+```
+
+`--gcode DIR` renders already sliced `plate_N.gcode` files instead.
+
 ## Changelog
 
 The changelog is the git history, and printable milestones are tagged as
