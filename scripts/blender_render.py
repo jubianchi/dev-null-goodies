@@ -20,6 +20,23 @@ FRAMING_MARGIN = 1.15
 MAX_ALBEDO = 0.8
 
 
+@dataclass(frozen=True)
+class Lighting:
+    key: Vector
+    distance: float
+    roughness: float
+
+
+LIGHTINGS = {
+    "front": Lighting(Vector((0.6, -0.8, 0.9)), distance=2, roughness=0.45),
+    "far": Lighting(Vector((0.6, -0.8, 0.9)), distance=6, roughness=0.45),
+    "far-rough": Lighting(Vector((0.6, -0.8, 0.9)), distance=6, roughness=0.7),
+    "back-right": Lighting(Vector((0.8, 0.4, 0.9)), distance=6, roughness=0.45),
+    "side-low": Lighting(Vector((1.0, -0.2, 0.6)), distance=6, roughness=0.45),
+}
+FILL_DIRECTION = Vector((-1.0, -0.4, 0.6))
+
+
 def srgb_to_linear(hex_colour: str) -> tuple[float, float, float, float]:
     srgb = np.array([int(hex_colour.lstrip("#")[i : i + 2], 16) / 255 for i in (0, 2, 4)])
     linear = np.where(srgb <= 0.04045, srgb / 12.92, ((srgb + 0.055) / 1.055) ** 2.4)
@@ -32,7 +49,7 @@ def clear_scene() -> None:
             collection.remove(datablock)
 
 
-def setup_scene(samples: int, width: int, height: int) -> bpy.types.Scene:
+def setup_scene(samples: int, width: int, height: int, exposure: float = 0.0) -> bpy.types.Scene:
     bpy.ops.wm.read_factory_settings(use_empty=True)
     scene = bpy.context.scene
     scene.render.engine = "CYCLES"
@@ -45,6 +62,7 @@ def setup_scene(samples: int, width: int, height: int) -> bpy.types.Scene:
     scene.render.image_settings.file_format = "PNG"
     scene.render.image_settings.color_mode = "RGBA"
     scene.view_settings.view_transform = "Khronos PBR Neutral"
+    scene.view_settings.exposure = exposure
 
     world = bpy.data.worlds.new("world")
     background = world.node_tree.nodes["Background"]
@@ -54,11 +72,11 @@ def setup_scene(samples: int, width: int, height: int) -> bpy.types.Scene:
     return scene
 
 
-def filament_material(index: int, colour: str) -> bpy.types.Material:
+def filament_material(index: int, colour: str, roughness: float) -> bpy.types.Material:
     material = bpy.data.materials.new(f"filament-{index}")
     shader = material.node_tree.nodes["Principled BSDF"]
     shader.inputs["Base Color"].default_value = srgb_to_linear(colour)
-    shader.inputs["Roughness"].default_value = 0.45
+    shader.inputs["Roughness"].default_value = roughness
     return material
 
 
@@ -98,7 +116,9 @@ def mesh_from_arrays(name: str, vertices: np.ndarray, triangles: np.ndarray) -> 
     return mesh
 
 
-def add_shapes(scene: bpy.types.Scene, shapes: list[Shape], colours: tuple[str, ...], merge: bool) -> np.ndarray:
+def add_shapes(
+    scene: bpy.types.Scene, shapes: list[Shape], colours: tuple[str, ...], merge: bool, roughness: float
+) -> np.ndarray:
     vertices = np.concatenate([shape.vertices for shape in shapes])
     low, high = vertices.min(axis=0), vertices.max(axis=0)
     offset = np.array([(low[0] + high[0]) / 2, (low[1] + high[1]) / 2, low[2]])
@@ -106,7 +126,7 @@ def add_shapes(scene: bpy.types.Scene, shapes: list[Shape], colours: tuple[str, 
 
     for shape in shapes:
         if shape.filament not in materials:
-            materials[shape.filament] = filament_material(shape.filament, colours[shape.filament - 1])
+            materials[shape.filament] = filament_material(shape.filament, colours[shape.filament - 1], roughness)
         mesh = mesh_from_arrays(shape.name, (shape.vertices - offset) * MILLIMETRE, shape.triangles)
         mesh.materials.append(materials[shape.filament])
         obj = bpy.data.objects.new(shape.name, mesh)
@@ -173,10 +193,14 @@ def add_camera(scene: bpy.types.Scene, bounds: np.ndarray, direction: Vector) ->
     scene.camera = camera
 
 
-def render_still(scene: bpy.types.Scene, bounds: np.ndarray, path: Path, direction: Vector) -> None:
+def render_still(
+    scene: bpy.types.Scene, bounds: np.ndarray, path: Path, direction: Vector, lighting: Lighting
+) -> None:
     size = float(np.max(bounds[1] - bounds[0]))
-    add_light(scene, "key", Vector((0.6, -0.8, 0.9)), size * 2, 150 * size**2, size * 0.5)
-    add_light(scene, "fill", Vector((-1.0, -0.4, 0.6)), size * 2, 25 * size**2, size * 1.5)
+    distance = size * lighting.distance
+    spread = lighting.distance / 2
+    add_light(scene, "key", lighting.key, distance, 150 * size**2 * spread**2, size * 0.5 * spread)
+    add_light(scene, "fill", FILL_DIRECTION, distance, 25 * size**2 * spread**2, size * 1.5 * spread)
     add_camera(scene, bounds, direction)
     scene.render.filepath = str(path)
     bpy.ops.render.render(write_still=True)
@@ -184,25 +208,45 @@ def render_still(scene: bpy.types.Scene, bounds: np.ndarray, path: Path, directi
 
 
 def render(
-    source: Path, output: Path, samples: int, width: int, height: int, gcode: Path | None, view: str
+    source: Path,
+    output: Path,
+    samples: int,
+    width: int,
+    height: int,
+    gcode: Path | None,
+    view: str,
+    exposure: float,
+    lighting_name: str,
 ) -> None:
     project = read_project(source)
     direction = VIEW_DIRECTIONS[view]
+    lighting = LIGHTINGS[lighting_name]
     output.mkdir(parents=True, exist_ok=True)
-    scene = setup_scene(samples, width, height)
+    scene = setup_scene(samples, width, height, exposure)
     if gcode is None:
         for model in project.models:
             clear_scene()
-            bounds = add_shapes(scene, model_shapes(model), project.filament_colours, merge=True)
-            render_still(scene, bounds, output / f"{model.name}.png", direction)
+            shapes = model_shapes(model)
+            bounds = add_shapes(scene, shapes, project.filament_colours, merge=True, roughness=lighting.roughness)
+            render_still(scene, bounds, output / f"{model.name}.png", direction, lighting)
     else:
         for plate in project.plates:
             clear_scene()
             shapes = toolpath_shapes(gcode / f"plate_{plate.index}.gcode")
-            bounds = add_shapes(scene, shapes, project.filament_colours, merge=False)
-            render_still(scene, bounds, output / f"{plate_image_name(plate)}.png", direction)
+            bounds = add_shapes(scene, shapes, project.filament_colours, merge=False, roughness=lighting.roughness)
+            render_still(scene, bounds, output / f"{plate_image_name(plate)}.png", direction, lighting)
 
 
 if __name__ == "__main__":
-    source, output, samples, width, height, gcode, view = sys.argv[sys.argv.index("--") + 1 :]
-    render(Path(source), Path(output), int(samples), int(width), int(height), Path(gcode) if gcode else None, view)
+    source, output, samples, width, height, gcode, view, exposure, lighting = sys.argv[sys.argv.index("--") + 1 :]
+    render(
+        Path(source),
+        Path(output),
+        int(samples),
+        int(width),
+        int(height),
+        Path(gcode) if gcode else None,
+        view,
+        float(exposure),
+        lighting,
+    )

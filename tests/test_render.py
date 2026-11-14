@@ -97,6 +97,63 @@ def test_top_view_keeps_the_back_of_the_object_at_the_top(tmp_path: Path) -> Non
     assert rows.mean() < pixels.shape[0] / 2
 
 
+def _opaque_brightness(path: Path) -> float:
+    with Image.open(path) as image:
+        pixels = np.asarray(image.convert("RGBA")).reshape(-1, 4).astype(float)
+    return float(pixels[pixels[:, 3] == 255, :3].mean())
+
+
+def test_lowers_the_brightness_with_a_negative_exposure(tmp_path: Path, rendered: Path) -> None:
+    source = write_3mf(
+        tmp_path / "keychains.3mf",
+        [FixtureObject("white", [FixturePart("plate", extruder=3, transform="20 0 0 0 20 0 0 0 2 0 0 0")])],
+        ["#131313", "#C42430", "#ECECEB"],
+    )
+    output = tmp_path / "images"
+    arguments = [str(source), "--output", str(output), "--samples", "4", "--resolution", "160x90", "--exposure", "-1"]
+
+    assert main(arguments) == 0
+
+    assert _opaque_brightness(output / "white.png") < _opaque_brightness(rendered / "white.png") - 10
+
+
+def _relief_fixture(path: Path) -> Path:
+    return write_3mf(
+        path,
+        [
+            FixtureObject(
+                "relief",
+                [
+                    FixturePart("plate", extruder=3, transform="40 0 0 0 40 0 0 0 1 0 0 0"),
+                    FixturePart("ridge", extruder=3, transform="2 0 0 0 30 0 0 0 3 19 5 1"),
+                ],
+            )
+        ],
+        ["#131313", "#C42430", "#ECECEB"],
+    )
+
+
+def _render_relief(tmp_path: Path, lighting: str) -> NDArray[np.float64]:
+    source = _relief_fixture(tmp_path / f"{lighting}.3mf")
+    output = tmp_path / lighting
+    arguments = [str(source), "--output", str(output), "--samples", "4", "--resolution", "160x90", "--lighting", lighting]
+    assert main(arguments) == 0
+    with Image.open(output / "relief.png") as image:
+        return np.asarray(image.convert("RGBA")).astype(float)
+
+
+def test_renders_with_the_requested_lighting(tmp_path: Path) -> None:
+    front = _render_relief(tmp_path, "front")
+    side = _render_relief(tmp_path, "side-low")
+
+    assert np.abs(front[:, :, :3] - side[:, :, :3]).mean() > 1
+
+
+def test_rejects_an_unknown_lighting(tmp_path: Path) -> None:
+    with pytest.raises(SystemExit):
+        main([str(_relief_fixture(tmp_path / "relief.3mf")), "--lighting", "disco"])
+
+
 def _reddish(path: Path) -> NDArray[np.bool_]:
     with Image.open(path) as image:
         pixels = np.asarray(image.convert("RGBA")).reshape(-1, 4).astype(int)

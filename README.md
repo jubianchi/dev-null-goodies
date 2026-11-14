@@ -53,6 +53,20 @@ $ uv run scripts/render.py coasters/coasters.3mf --toolpaths
 
 `--gcode DIR` renders already sliced `plate_N.gcode` files instead.
 
+`--lighting PRESET` picks the key light (default `front`):
+
+| Preset | Key light |
+| --- | --- |
+| `front` | Front right, close to the object |
+| `far` | Front right, farther away for a more even light |
+| `far-rough` | Like `far`, on a more matte material |
+| `back-right` | Back right, so the shadows fall toward the camera |
+| `side-low` | Right side, low and far away: grazing light that brings out reliefs |
+
+`--exposure STOPS` (default `0`) brightens or darkens every image of the run.
+
+The coasters are rendered with `--toolpaths --lighting side-low`.
+
 ## Changelog
 
 The changelog is the [git history](../../commits/main): there are no releases, the `main` branch is always the latest

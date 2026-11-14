@@ -8,6 +8,7 @@ from pathlib import Path
 SCENE_SCRIPT = Path(__file__).resolve().parent / "blender_render.py"
 MACOS_BLENDER = Path("/Applications/Blender.app/Contents/MacOS/Blender")
 MACOS_BAMBU_STUDIO = Path("/Applications/BambuStudio.app/Contents/MacOS/BambuStudio")
+LIGHTINGS = ("front", "far", "far-rough", "back-right", "side-low")
 
 
 def find_blender() -> str | None:
@@ -59,6 +60,8 @@ def _render(blender: str, args: argparse.Namespace, gcode: Path | None) -> int:
         str(height),
         str(gcode.resolve()) if gcode else "",
         args.view,
+        str(args.exposure),
+        args.lighting,
     ]
     return subprocess.run(command, check=False, stdout=subprocess.DEVNULL).returncode
 
@@ -72,6 +75,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--view", choices=("three-quarter", "top"), default="three-quarter", help="camera view (default: three-quarter)"
     )
+    parser.add_argument(
+        "--exposure", type=float, default=0.0, help="exposure in stops, negative to darken (default: 0)"
+    )
+    parser.add_argument("--lighting", choices=LIGHTINGS, default="front", help="lighting preset (default: front)")
     toolpaths = parser.add_mutually_exclusive_group()
     toolpaths.add_argument(
         "--toolpaths", action="store_true", help="slice with Bambu Studio and render one PNG per plate from the G-code"
