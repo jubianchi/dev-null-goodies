@@ -7,7 +7,7 @@
   <img alt="/dev/null keychain" src="images/keychain-large-dark.png">
 </picture>
 
-[Print it on MakerWorld](TODO(MakerWorld URL))
+[Print it on MakerWorld](https://makerworld.com/en/models/3611268-dev-null-keychains)
 
 ## Variants
 

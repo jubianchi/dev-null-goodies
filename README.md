@@ -9,11 +9,12 @@ network where developers commit messages to the log ([source code](https://githu
 
 | Preview | Goodie | Description | Print it |
 | --- | --- | --- | --- |
-| <picture><source media="(prefers-color-scheme: dark)" srcset="keychains/images/keychain-large-light.png"><img alt="/dev/null keychains" src="keychains/images/keychain-large-dark.png"></picture> | [Keychains](keychains/) | The /dev/null logo, on your keys. | [Print it on MakerWorld](TODO(MakerWorld URL)) |
+| <picture><source media="(prefers-color-scheme: dark)" srcset="keychains/images/keychain-large-light.png"><img alt="/dev/null keychains" src="keychains/images/keychain-large-dark.png"></picture> | [Keychains](keychains/) | The /dev/null logo, on your keys. | [Print it on MakerWorld](https://makerworld.com/en/models/3611268-dev-null-keychains) |
 | <picture><source media="(prefers-color-scheme: dark)" srcset="coasters/images/coaster-light.png"><img alt="/dev/null coasters" src="coasters/images/coaster-dark.png"></picture> | [Coasters](coasters/) | The /dev/null logo, under your mug. | [Print it on MakerWorld](TODO(MakerWorld URL)) |
 | <picture><source media="(prefers-color-scheme: dark)" srcset="iron-on/images/iron-on-light.png"><img alt="/dev/null iron-on transfer" src="iron-on/images/iron-on-dark.png"></picture> | [Iron-on transfer](iron-on/) | The /dev/null logo, on your t-shirt. | [Print it on MakerWorld](TODO(MakerWorld URL)) |
 
-More goodies may land here later.
+More goodies may land here later. Follow the [/dev/null collection](https://makerworld.com/en/collections/40672455-dev-null)
+on MakerWorld to get them all.
 
 ## Printing
 
