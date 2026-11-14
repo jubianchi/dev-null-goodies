@@ -39,4 +39,4 @@ Not part of the description: these go in the print profile form.
 - 0.2 mm layer height, 2 walls, no supports
 - Coaster body: no top layers and 10% Hilbert curve infill, so the infill is the visible texture
 - Logo top surfaces ironed
-- Higher purge volumes when switching to white (900 from black, 608 from red) to keep the white clean
+- Higher purge volumes when switching to white (750 from black, 650 from red) to keep the white clean
