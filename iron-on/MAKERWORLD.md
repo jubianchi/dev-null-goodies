@@ -2,8 +2,7 @@
 
 Every Unix machine has a black hole. Now you can wear one.
 
-This iron-on transfer is based on the logo of /dev/null, the social network for developers. You sign in with GitHub and
-commit your messages to the log instead of tweeting them.
+This iron-on transfer is based on the logo of [/dev/null](https://dev-null.sh), the social network for developers.
 
 ## Why you need one
 
