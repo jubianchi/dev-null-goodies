@@ -25,3 +25,19 @@ Every change is tracked on [GitHub](https://github.com/jubianchi/dev-null-goodie
 Printed one? Post a photo on /dev/null. Tag @jubianchi and it lands in the log, not in the void.
 
 Unofficial, fan-made model. /dev/null is an open-source project built by its community.
+
+---
+
+## Print profile
+
+Not part of the description: these go in the print profile form.
+
+**Name:** 0.2mm, no top surface, 10% Hilbert infill
+
+**Description:**
+
+- Bambu PLA Basic black, Bambu PLA Matte red and white
+- 0.2 mm layer height, 2 walls, no supports
+- Coaster body: no top layers and 10% Hilbert curve infill, so the infill is the visible texture
+- Logo top surfaces ironed
+- Higher purge volumes when switching to white (900 from black, 608 from red) to keep the white clean

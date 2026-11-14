@@ -34,3 +34,19 @@ Every change is tracked on [GitHub](https://github.com/jubianchi/dev-null-goodie
 Printed one? Post a photo on /dev/null. Tag @jubianchi and it lands in the log, not in the void.
 
 Unofficial, fan-made model. /dev/null is an open-source project built by its community.
+
+---
+
+## Print profile
+
+Not part of the description: these go in the print profile form.
+
+**Name:** 0.08mm, 2 layers, tuned purge
+
+**Description:**
+
+- Bambu PLA Basic: black, red, white
+- 0.08 mm layer height, 2 layers (0.16 mm in total), no supports
+- Top surface ironed (flow 8%, spacing 0.15 mm, 30 mm/s)
+- Higher purge volumes when switching to white (750 from black, 650 from red): the visible side is the first layer, so
+  any leftover color would show on the fabric
