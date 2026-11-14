@@ -6,9 +6,9 @@ This iron-on transfer is based on the logo of [/dev/null](https://dev-null.sh), 
 
 ## Why you need one
 
-- Instant nerd cred at meetups, conferences and on-call handovers. People who get it, get it.
-- Two thin layers, a few minutes, and any t-shirt becomes merch.
-- TODO(third argument)
+- Merch you compile yourself. No shipping, no sold-out sizes: any t-shirt in your drawer becomes swag.
+- `| tee`: pipe /dev/null onto any shirt. Dark or light, there's a version for it.
+- Give a second life to that plain tee, or to the hackathon shirt nobody remembers.
 
 ## What's in the 3MF
 
