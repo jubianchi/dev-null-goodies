@@ -6,9 +6,9 @@ This coaster is based on the logo of [/dev/null](https://dev-null.sh), the socia
 
 ## Why you need one
 
-- No top surface: the Hilbert curve infill is the texture. Your slicer finally gets to show off.
-- 0 bytes, 0 dependencies. It never needs an update, only a refill.
-- Prints in one go. No supports, no glue.
+- `2>/dev/null` for your desk: drips go in, rings never come out.
+- The most over-engineered coaster on your desk. A space-filling Hilbert curve, holding your coffee.
+- Your mug becomes the conversation starter of every video call.
 
 ## What's in the 3MF
 
