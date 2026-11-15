@@ -41,5 +41,5 @@ Not part of the description: these go in the print profile form.
 - Bambu PLA Basic black, Bambu PLA Matte red and white
 - 0.2 mm layer height, 2 walls, no supports
 - Coaster body: no top layers and 10% Hilbert curve infill, so the infill is the visible texture
-- Logo top surfaces ironed
+- Logo top surfaces ironed (flow 25%, spacing 0.1 mm, 25 mm/s)
 - Higher purge volumes when switching to white (750 from black, 650 from red) to keep the white clean
