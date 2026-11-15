@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from bambu3mf import read_project
+from bambu3mf import read_project, skip_plates
 from conftest import FixtureObject, FixturePart, write_3mf
 
 
@@ -111,6 +111,39 @@ def test_reads_plates_and_their_objects(tmp_path: Path) -> None:
         (1, "second-plate", ("b",)),
         (2, "first-plate", ("a", "b")),
     ]
+
+
+def test_skips_plates_and_the_objects_only_found_on_them(tmp_path: Path) -> None:
+    path = write_3mf(
+        tmp_path / "p.3mf",
+        [
+            FixtureObject("whole", [FixturePart("plate")]),
+            FixtureObject("piece", [FixturePart("plate")]),
+            FixtureObject("shared", [FixturePart("plate")]),
+        ],
+        ["#000000"],
+        plates=[("whole-plate", ["whole", "shared"]), ("pieces-plate", ["piece", "shared"])],
+    )
+
+    project = skip_plates(read_project(path), [2])
+
+    assert [plate.name for plate in project.plates] == ["whole-plate"]
+    assert [model.name for model in project.models] == ["whole", "shared"]
+
+
+def test_skipping_no_plate_keeps_every_object(tmp_path: Path) -> None:
+    path = write_3mf(tmp_path / "p.3mf", [FixtureObject("a", [FixturePart("plate")])], ["#000000"])
+
+    assert [model.name for model in skip_plates(read_project(path), []).models] == ["a"]
+
+
+def test_rejects_skipping_an_unknown_plate(tmp_path: Path) -> None:
+    path = write_3mf(
+        tmp_path / "p.3mf", [FixtureObject("a", [FixturePart("plate")])], ["#000000"], plates=[("a-plate", ["a"])]
+    )
+
+    with pytest.raises(ValueError, match="no plate 3"):
+        skip_plates(read_project(path), [3])
 
 
 def test_rejects_non_3mf_files(tmp_path: Path) -> None:

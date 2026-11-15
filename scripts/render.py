@@ -5,6 +5,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+from bambu3mf import read_project, skip_plates
+
 SCENE_SCRIPT = Path(__file__).resolve().parent / "blender_render.py"
 MACOS_BLENDER = Path("/Applications/Blender.app/Contents/MacOS/Blender")
 MACOS_BAMBU_STUDIO = Path("/Applications/BambuStudio.app/Contents/MacOS/BambuStudio")
@@ -62,6 +64,7 @@ def _render(blender: str, args: argparse.Namespace, gcode: Path | None) -> int:
         args.view,
         str(args.exposure),
         args.lighting,
+        ",".join(map(str, args.skip_plate)),
     ]
     return subprocess.run(command, check=False, stdout=subprocess.DEVNULL).returncode
 
@@ -79,12 +82,19 @@ def main(argv: list[str] | None = None) -> int:
         "--exposure", type=float, default=0.0, help="exposure in stops, negative to darken (default: 0)"
     )
     parser.add_argument("--lighting", choices=LIGHTINGS, default="front", help="lighting preset (default: front)")
+    parser.add_argument(
+        "--skip-plate", type=int, action="append", default=[], metavar="N", help="do not render plate N (repeatable)"
+    )
     toolpaths = parser.add_mutually_exclusive_group()
     toolpaths.add_argument(
         "--toolpaths", action="store_true", help="slice with Bambu Studio and render one PNG per plate from the G-code"
     )
     toolpaths.add_argument("--gcode", type=Path, help="render one PNG per plate from already sliced plate_N.gcode files")
     args = parser.parse_args(argv)
+    try:
+        skip_plates(read_project(args.source), args.skip_plate)
+    except ValueError as error:
+        parser.error(str(error))
 
     blender = find_blender()
     if blender is None:

@@ -5,7 +5,7 @@ import numpy as np
 from manifold3d import Manifold, Mesh, OpType
 from numpy.typing import NDArray
 
-from bambu3mf import Model, Part, read_project
+from bambu3mf import Model, Part, read_project, skip_plates
 
 STL_HEADER = b"dev-null-goodies".ljust(80, b" ")
 STL_RECORD = np.dtype([("normal", "<f4", (3,)), ("vertices", "<f4", (3, 3)), ("attributes", "<u2")])
@@ -72,8 +72,8 @@ def _corners(solid: Manifold) -> NDArray[np.float64]:
     return vertices[np.asarray(mesh.tri_verts, dtype=np.int64)]
 
 
-def export_stl(source: Path, output: Path) -> list[Path]:
-    project = read_project(source)
+def export_stl(source: Path, output: Path, skipped_plates: list[int] | None = None) -> list[Path]:
+    project = skip_plates(read_project(source), skipped_plates or [])
     output.mkdir(parents=True, exist_ok=True)
     for stale in output.glob("*.stl"):
         stale.unlink()
@@ -93,9 +93,16 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Export one STL per object and filament from a Bambu Studio 3MF.")
     parser.add_argument("source", type=Path, help="Bambu Studio .3mf project")
     parser.add_argument("--output", type=Path, help="output folder (default: stl/ next to the 3MF)")
+    parser.add_argument(
+        "--skip-plate", type=int, action="append", default=[], metavar="N", help="do not export plate N (repeatable)"
+    )
     args = parser.parse_args(argv)
 
-    for path in export_stl(args.source, args.output or args.source.parent / "stl"):
+    try:
+        written = export_stl(args.source, args.output or args.source.parent / "stl", args.skip_plate)
+    except ValueError as error:
+        parser.error(str(error))
+    for path in written:
         print(path)
     return 0
 

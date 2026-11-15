@@ -211,6 +211,44 @@ def test_slices_one_gcode_per_plate(tmp_path: Path) -> None:
     assert {"plate_1.gcode", "plate_2.gcode"} <= {path.name for path in tmp_path.iterdir()}
 
 
+def _two_plates(path: Path) -> Path:
+    return write_3mf(
+        path,
+        [FixtureObject("whole", [FixturePart("plate")]), FixtureObject("piece", [FixturePart("plate")])],
+        ["#131313"],
+        plates=[("whole-plate", ["whole"]), ("pieces-plate", ["piece"])],
+    )
+
+
+def test_skips_the_objects_of_skipped_plates(tmp_path: Path) -> None:
+    output = tmp_path / "images"
+    arguments = [str(_two_plates(tmp_path / "p.3mf")), "--output", str(output), "--skip-plate", "2"]
+
+    assert main([*arguments, "--samples", "4", "--resolution", "160x90"]) == 0
+
+    assert [path.name for path in output.iterdir()] == ["whole.png"]
+
+
+def test_rejects_skipping_an_unknown_plate(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    with pytest.raises(SystemExit):
+        main([str(_two_plates(tmp_path / "p.3mf")), "--skip-plate", "9"])
+
+    assert "no plate 9" in capsys.readouterr().err
+
+
+def test_skips_the_toolpaths_of_skipped_plates(tmp_path: Path) -> None:
+    gcode = tmp_path / "gcode"
+    gcode.mkdir()
+    for index in (1, 2):
+        (gcode / f"plate_{index}.gcode").write_text("\n".join(["; MACHINE_START_GCODE_END", *_square_layers(1, 20, 2)]))
+    output = tmp_path / "images"
+    arguments = [str(_two_plates(tmp_path / "p.3mf")), "--gcode", str(gcode), "--output", str(output)]
+
+    assert main([*arguments, "--skip-plate", "2", "--samples", "4", "--resolution", "160x90"]) == 0
+
+    assert [path.name for path in output.iterdir()] == ["whole.png"]
+
+
 def test_renders_toolpaths_with_their_filament_colour(rendered_toolpaths: Path) -> None:
     reddish = _reddish(rendered_toolpaths / "coaster.png")
 

@@ -135,6 +135,30 @@ def test_replaces_previously_generated_stl_files(tmp_path: Path) -> None:
     assert not (out / "keychain.stl").exists()
 
 
+def _two_plates(path: Path) -> Path:
+    return write_3mf(
+        path,
+        [FixtureObject("whole", [FixturePart("plate")]), FixtureObject("piece", [FixturePart("plate")])],
+        ["#000000"],
+        plates=[("whole-plate", ["whole"]), ("pieces-plate", ["piece"])],
+    )
+
+
+def test_skips_the_objects_of_skipped_plates(tmp_path: Path) -> None:
+    out = tmp_path / "stl"
+
+    main([str(_two_plates(tmp_path / "p.3mf")), "--output", str(out), "--skip-plate", "2"])
+
+    assert [path.name for path in out.iterdir()] == ["whole-1-black.stl"]
+
+
+def test_rejects_skipping_an_unknown_plate(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    with pytest.raises(SystemExit):
+        main([str(_two_plates(tmp_path / "p.3mf")), "--skip-plate", "9"])
+
+    assert "no plate 9" in capsys.readouterr().err
+
+
 def test_defaults_output_to_stl_folder_next_to_the_3mf(tmp_path: Path) -> None:
     main([str(two_colour_keychain(tmp_path))])
 

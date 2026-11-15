@@ -8,7 +8,7 @@ from mathutils import Quaternion, Vector
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from bambu3mf import Model, Plate, read_project  # noqa: E402
+from bambu3mf import Model, Plate, read_project, skip_plates  # noqa: E402
 from toolpaths import parse_gcode, polylines, tube_mesh  # noqa: E402
 
 MILLIMETRE = 0.001
@@ -217,8 +217,9 @@ def render(
     view: str,
     exposure: float,
     lighting_name: str,
+    skipped_plates: list[int],
 ) -> None:
-    project = read_project(source)
+    project = skip_plates(read_project(source), skipped_plates)
     direction = VIEW_DIRECTIONS[view]
     lighting = LIGHTINGS[lighting_name]
     output.mkdir(parents=True, exist_ok=True)
@@ -238,7 +239,9 @@ def render(
 
 
 if __name__ == "__main__":
-    source, output, samples, width, height, gcode, view, exposure, lighting = sys.argv[sys.argv.index("--") + 1 :]
+    source, output, samples, width, height, gcode, view, exposure, lighting, skipped = sys.argv[
+        sys.argv.index("--") + 1 :
+    ]
     render(
         Path(source),
         Path(output),
@@ -249,4 +252,5 @@ if __name__ == "__main__":
         view,
         float(exposure),
         lighting,
+        [int(index) for index in skipped.split(",") if index],
     )

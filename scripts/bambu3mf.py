@@ -1,7 +1,8 @@
 import json
 import posixpath
 import zipfile
-from dataclasses import dataclass
+from collections.abc import Iterable
+from dataclasses import dataclass, replace
 from pathlib import Path
 from xml.etree import ElementTree
 
@@ -41,6 +42,18 @@ class Project:
     models: tuple[Model, ...]
     filament_colours: tuple[str, ...]
     plates: tuple[Plate, ...] = ()
+
+
+def skip_plates(project: Project, indexes: Iterable[int]) -> Project:
+    skipped = set(indexes)
+    if not skipped:
+        return project
+    if unknown := skipped - {plate.index for plate in project.plates}:
+        raise ValueError(f"no plate {', '.join(map(str, sorted(unknown)))} in this project")
+    plates = tuple(plate for plate in project.plates if plate.index not in skipped)
+    kept = {name for plate in plates for name in plate.objects}
+    models = tuple(model for model in project.models if model.name in kept)
+    return replace(project, models=models, plates=plates)
 
 
 @dataclass(frozen=True)
