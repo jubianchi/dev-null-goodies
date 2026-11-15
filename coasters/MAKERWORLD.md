@@ -12,7 +12,10 @@ This coaster is based on the logo of [/dev/null](https://dev-null.sh), the socia
 
 ## What's in the 3MF
 
-- 2 coasters, one per plate: dark or light
+- 2 coasters, dark or light, each in two versions:
+  - In one piece, straight off the printer
+  - In 3 pieces to glue together: the body and the two logo slashes are printed one after the other, so only two
+    filament changes instead of one per layer
 - Plates ready to slice, colors and per-part settings already assigned
 
 ## Changelog
