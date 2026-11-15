@@ -7,7 +7,7 @@
   <img alt="/dev/null coaster" src="images/coaster-dark.png">
 </picture>
 
-[Print it on MakerWorld](TODO(MakerWorld URL))
+[Print it on MakerWorld](https://makerworld.com/en/models/3616549-dev-null-coasters)
 
 The coaster is printed without top surface: the Hilbert curve infill stays visible and gives it its texture. The renders
 are made from the sliced toolpaths, so they show what comes out of the printer.
