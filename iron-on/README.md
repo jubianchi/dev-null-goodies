@@ -32,7 +32,8 @@ The /dev/null logo and wordmark printed in two 0.08 mm layers, then ironed onto 
 | --- | --- |
 | Profile | 0.08mm High Quality @BBL H2S |
 | Layer height | 0.08 mm, 2 layers (0.16 mm thick) |
-| Build plate | Textured PEI |
+| Build plate | Smooth PEI (a textured plate is too rough for a 0.08 mm first layer) |
+| Ironing | None (it would drag the thin pieces off the plate) |
 | Supports | None |
 | Colors | 2 PLA per transfer: black `#131313` and red `#C42430` (dark), white `#ECECEB` and red `#C42430` (light) |
 | Size | 227 × 178 mm |
@@ -43,9 +44,10 @@ The /dev/null logo and wordmark printed in two 0.08 mm layers, then ironed onto 
 
 The logo is made of separate pieces (slashes and letters). Keep them together from the build plate to the t-shirt:
 
-1. While the print is still on the build plate, cover its clean (top) side with transfer tape or painter's tape, then
-   peel everything off the plate at once.
-2. Place the t-shirt flat and position the logo, clean side facing up (the tape stays on top).
+1. While the print is still on the build plate, cover its top side with transfer tape or painter's tape, then peel
+   everything off the plate at once.
+2. Place the t-shirt flat and position the logo, the side that touched the build plate against the fabric (the tape
+   stays on top). The logo only reads the right way from the top side.
 3. Hold it in place with a few strips of heat-resistant tape (e.g. Kapton) on the edges, then peel off the transfer or
    painter's tape, which is not meant to go under the iron.
 4. Cover with baking/parchment paper.

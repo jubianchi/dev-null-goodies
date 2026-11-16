@@ -17,8 +17,10 @@ This iron-on transfer is based on the logo of [/dev/null](https://dev-null.sh), 
 
 ## How to iron it on
 
-1. Before removing the print from the plate, cover it with transfer or painter's tape to keep the pieces aligned.
-2. Place the t-shirt flat and position the logo, clean side facing up.
+1. Before removing the print from the plate, cover its top side with transfer or painter's tape to keep the pieces
+   aligned.
+2. Place the t-shirt flat and position the logo, the side that touched the build plate against the fabric (the logo
+   only reads the right way from the top side).
 3. Hold it with heat-resistant tape (e.g. Kapton) and remove the transfer or painter's tape.
 4. Cover with baking/parchment paper.
 5. Press with a hot iron (no steam) for 15–20 seconds, moving evenly for larger designs.
@@ -46,6 +48,6 @@ Not part of the description: these go in the print profile form.
 
 - Bambu PLA Basic: black, red, white
 - 0.08 mm layer height, 2 layers (0.16 mm in total), no supports
-- Top surface ironed (flow 8%, spacing 0.15 mm, 30 mm/s)
-- Higher purge volumes when switching to white (750 from black, 650 from red): the visible side is the first layer, so
-  any leftover color would show on the fabric
+- Smooth PEI plate: a textured plate is too rough for a 0.08 mm first layer
+- No ironing: it would drag the thin pieces off the plate
+- Higher purge volumes when switching to white (750 from black, 650 from red) to keep the white clean
