@@ -12,6 +12,7 @@ network where developers commit messages to the log ([source code](https://githu
 | <picture><source media="(prefers-color-scheme: dark)" srcset="keychains/images/keychain-large-light.png"><img alt="/dev/null keychains" src="keychains/images/keychain-large-dark.png"></picture> | [Keychains](keychains/) | The /dev/null logo, on your keys. | [Print it on MakerWorld](https://makerworld.com/en/models/3611268-dev-null-keychains) |
 | <picture><source media="(prefers-color-scheme: dark)" srcset="coasters/images/coaster-light.png"><img alt="/dev/null coasters" src="coasters/images/coaster-dark.png"></picture> | [Coasters](coasters/) | The /dev/null logo, under your mug. | [Print it on MakerWorld](https://makerworld.com/en/models/3616549-dev-null-coasters) |
 | <picture><source media="(prefers-color-scheme: dark)" srcset="iron-on/images/iron-on-light.png"><img alt="/dev/null iron-on transfer" src="iron-on/images/iron-on-dark.png"></picture> | [Iron-on transfer](iron-on/) | The /dev/null logo, on your t-shirt. | [Print it on MakerWorld](https://makerworld.com/en/models/3639562-dev-null-iron-on-transfer) |
+| <picture><source media="(prefers-color-scheme: dark)" srcset="keycaps/images/keycap-2u-light.png"><img alt="/dev/null keycaps" src="keycaps/images/keycap-2u-dark.png"></picture> | [Keycaps](keycaps/) | The /dev/null logo, on your Escape and Backspace keys. | [Print it on MakerWorld](TODO(MakerWorld URL)) |
 
 More goodies may land here later. Follow the [/dev/null collection](https://makerworld.com/en/collections/40672455-dev-null)
 on MakerWorld to get them all.
@@ -69,6 +70,9 @@ Both `export_stl.py` and `render.py` accept `--skip-plate N`, repeatable, to lea
 plates that print a goodie in pieces). An object that also sits on a kept plate is still exported and rendered.
 
 The coasters are rendered with `--toolpaths --lighting side-low --skip-plate 3 --skip-plate 4`.
+
+The keycaps are modeled in code: `scripts/keycap.py` generates their STLs, with the logo taken from the keychains (see
+[keycaps](keycaps/)).
 
 ## Changelog
 
