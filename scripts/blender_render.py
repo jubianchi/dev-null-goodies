@@ -139,8 +139,9 @@ def add_shapes(
     return (np.array([low, high]) - offset) * MILLIMETRE
 
 
-def model_shapes(model: Model) -> list[Shape]:
-    return [Shape(part.name, part.filament, part.vertices, part.triangles) for part in model.parts]
+def model_shapes(model: Model, flip: bool = False) -> list[Shape]:
+    turn = np.array([1, -1, -1]) if flip else np.ones(3)
+    return [Shape(part.name, part.filament, part.vertices * turn, part.triangles) for part in model.parts]
 
 
 def toolpath_shapes(gcode: Path) -> list[Shape]:
@@ -218,6 +219,7 @@ def render(
     exposure: float,
     lighting_name: str,
     skipped_plates: list[int],
+    flip: bool = False,
 ) -> None:
     project = skip_plates(read_project(source), skipped_plates)
     direction = VIEW_DIRECTIONS[view]
@@ -227,7 +229,7 @@ def render(
     if gcode is None:
         for model in project.models:
             clear_scene()
-            shapes = model_shapes(model)
+            shapes = model_shapes(model, flip)
             bounds = add_shapes(scene, shapes, project.filament_colours, merge=True, roughness=lighting.roughness)
             render_still(scene, bounds, output / f"{model.name}.png", direction, lighting)
     else:
@@ -239,7 +241,7 @@ def render(
 
 
 if __name__ == "__main__":
-    source, output, samples, width, height, gcode, view, exposure, lighting, skipped = sys.argv[
+    source, output, samples, width, height, gcode, view, exposure, lighting, skipped, flip = sys.argv[
         sys.argv.index("--") + 1 :
     ]
     render(
@@ -253,4 +255,5 @@ if __name__ == "__main__":
         float(exposure),
         lighting,
         [int(index) for index in skipped.split(",") if index],
+        bool(flip),
     )
