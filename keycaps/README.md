@@ -35,6 +35,12 @@ $ uv run scripts/keycap.py                    # writes keycaps/stl/*.stl
 $ uv run scripts/keycap.py --clearance 0.1    # looser stems, see Fit
 ```
 
+The renders turn the keycaps over and leave the clearance coupon (plate 5) out:
+
+```console
+$ uv run scripts/render.py keycaps/keycaps.3mf --flip --skip-plate 5 --lighting far
+```
+
 ## Dimensions
 
 | | 1u | 2u |
