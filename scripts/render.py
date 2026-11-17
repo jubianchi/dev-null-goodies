@@ -65,6 +65,7 @@ def _render(blender: str, args: argparse.Namespace, gcode: Path | None) -> int:
         str(args.exposure),
         args.lighting,
         ",".join(map(str, args.skip_plate)),
+        "1" if args.flip else "",
     ]
     return subprocess.run(command, check=False, stdout=subprocess.DEVNULL).returncode
 
@@ -84,6 +85,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--lighting", choices=LIGHTINGS, default="front", help="lighting preset (default: front)")
     parser.add_argument(
         "--skip-plate", type=int, action="append", default=[], metavar="N", help="do not render plate N (repeatable)"
+    )
+    parser.add_argument(
+        "--flip", action="store_true", help="turn the objects over, for goodies printed upside down (e.g. keycaps)"
     )
     toolpaths = parser.add_mutually_exclusive_group()
     toolpaths.add_argument(

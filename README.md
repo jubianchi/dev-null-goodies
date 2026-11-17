@@ -66,6 +66,9 @@ $ uv run scripts/render.py coasters/coasters.3mf --toolpaths
 
 `--exposure STOPS` (default `0`) brightens or darkens every image of the run.
 
+`--flip` turns the objects over before rendering them, for goodies printed upside down (e.g. keycaps, printed top face
+on the plate).
+
 Both `export_stl.py` and `render.py` accept `--skip-plate N`, repeatable, to leave out the objects of plate N (e.g.
 plates that print a goodie in pieces). An object that also sits on a kept plate is still exported and rendered.
 

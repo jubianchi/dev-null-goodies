@@ -97,6 +97,41 @@ def test_top_view_keeps_the_back_of_the_object_at_the_top(tmp_path: Path) -> Non
     assert rows.mean() < pixels.shape[0] / 2
 
 
+def _red_rows(path: Path) -> NDArray[np.intp]:
+    with Image.open(path) as image:
+        pixels = np.asarray(image.convert("RGBA")).astype(int)
+    red = (pixels[:, :, 0] > 2 * pixels[:, :, 1]) & (pixels[:, :, 0] > 60) & (pixels[:, :, 3] == 255)
+    return np.nonzero(red)[0]
+
+
+@pytest.mark.parametrize(("flip", "visible"), [(False, False), (True, True)])
+def test_flip_turns_the_objects_over_to_show_the_side_printed_on_the_plate(
+    tmp_path: Path, flip: bool, visible: bool
+) -> None:
+    source = write_3mf(
+        tmp_path / "upside-down.3mf",
+        [
+            FixtureObject(
+                "upside-down",
+                [
+                    FixturePart("marker", extruder=2, transform="4 0 0 0 4 0 0 0 1 8 15 0"),
+                    FixturePart("body", extruder=1, transform="20 0 0 0 20 0 0 0 2 0 0 1"),
+                ],
+            )
+        ],
+        ["#131313", "#C42430"],
+    )
+    output = tmp_path / "images"
+    arguments = [str(source), "--output", str(output), "--samples", "4", "--resolution", "160x90", "--view", "top"]
+
+    assert main(arguments + (["--flip"] if flip else [])) == 0
+
+    rows = _red_rows(output / "upside-down.png")
+    assert (rows.size > 0) is visible
+    if visible:
+        assert rows.mean() > 90 / 2
+
+
 def _opaque_brightness(path: Path) -> float:
     with Image.open(path) as image:
         pixels = np.asarray(image.convert("RGBA")).reshape(-1, 4).astype(float)
