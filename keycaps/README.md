@@ -78,4 +78,15 @@ origin, so they line up. Keep them as they are, top face on the build plate: no 
 
 ## Print settings
 
-TODO(print settings validated with a test print)
+| Setting | Value |
+| --- | --- |
+| Profile | 0.08mm High Quality @BBL H2S |
+| Layer height | 0.2 mm first layer, then 0.08 mm |
+| Nozzle | 0.4 mm (1u and 2u mark only), 0.2 mm (2u mark and wordmark) |
+| Build plate | Textured PEI: the top of the keycap takes its grain |
+| Elephant foot compensation | 0 (it shrinks each color region and leaves grooves between them) |
+| First layer | One wall only, 25 % infill/wall overlap, 30 mm/s walls, 50 mm/s infill, so the color regions meet flush |
+| Infill | 15 % |
+| Supports | None |
+| Colors | 3 PLA (black `#131313`, red `#C42430`, white `#ECECEB`): AMS, or filament swaps |
+| Stem clearance | 0.05 mm per side (default), validated on a Bambu Lab H2S with Bambu PLA Basic |
