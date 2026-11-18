@@ -18,6 +18,7 @@ face on the build plate: the logo is part of the first layers, so it stays sharp
 | --- | --- | --- |
 | 1u (e.g. Escape), /dev/null mark | ![keycap-1u-dark](images/keycap-1u-dark.png) | ![keycap-1u-light](images/keycap-1u-light.png) |
 | 2u (Backspace), mark and wordmark | ![keycap-2u-dark](images/keycap-2u-dark.png) | ![keycap-2u-light](images/keycap-2u-light.png) |
+| 2u (Backspace), mark only | ![keycap-2u-mark-dark](images/keycap-2u-mark-dark.png) | ![keycap-2u-mark-light](images/keycap-2u-mark-light.png) |
 
 ## Files
 
@@ -49,10 +50,10 @@ $ uv run scripts/render.py keycaps/keycaps.3mf --flip --skip-plate 5 --lighting 
 | Top | 13.7 × 13.7 mm, flat, with a 0.8 mm chamfer | 32.8 × 13.7 mm, flat, with a 0.8 mm chamfer |
 | Height | 8 mm, the same on every row | 8 mm, the same on every row |
 | Stems | 1 Cherry MX cross | 1 Cherry MX cross and 2 Cherry stabilizer crosses, 23.876 mm apart |
-| Logo | Mark, 11 × 9.75 mm, inlaid 0.6 mm deep | Mark and wordmark, 30 × 4.9 mm, inlaid 0.6 mm deep |
+| Logo | Mark, 11 × 9.75 mm, inlaid 0.6 mm deep | Mark and wordmark, 30 × 4.9 mm, or mark only, 11 × 9.75 mm, inlaid 0.6 mm deep |
 
-The 2u logo is so small that the red outlined slashes are thickened inward to 0.3 mm, keeping their outer shape: it
-needs a 0.2 mm nozzle. The 1u mark prints with a 0.4 mm nozzle.
+The 2u mark and wordmark are so small that the red outlined slashes are thickened inward to 0.3 mm, keeping their outer
+shape: they need a 0.2 mm nozzle. The 1u and the 2u with the mark only print with a 0.4 mm nozzle.
 
 ## Fit
 

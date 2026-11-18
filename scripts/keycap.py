@@ -36,6 +36,7 @@ REPOSITORY = Path(__file__).resolve().parent.parent
 LAYOUTS: dict[str, tuple[float, str, tuple[float, float], float | None]] = {
     "1u": (1, "keychain-small", (11, 11), None),
     "2u": (2, "keychain-large", (30, 11), MIN_OUTLINE_WIDTH),
+    "2u-mark": (2, "keychain-small", (11, 11), None),
 }
 VARIANTS = ("dark", "light")
 

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from conftest import FixtureObject, FixturePart, write_3mf
@@ -39,12 +40,22 @@ def exported(tmp_path_factory: pytest.TempPathFactory) -> Path:
 def test_writes_one_stl_per_keycap_variant_and_filament(exported: Path) -> None:
     keycaps = [
         f"keycap-{size}-{variant}-{filament}.stl"
-        for size in ("1u", "2u")
+        for size in ("1u", "2u", "2u-mark")
         for variant in ("dark", "light")
         for filament in ("1-black", "2-red", "3-white")
     ]
 
     assert sorted(path.name for path in exported.iterdir()) == sorted([*keycaps, "keycap-clearance-coupon-1-black.stl"])
+
+
+def test_puts_the_one_unit_mark_on_a_two_unit_keycap_for_a_04_mm_nozzle(exported: Path) -> None:
+    _, two_units = read_binary_stl(exported / "keycap-2u-dark-1-black.stl")
+    _, mark_body = read_binary_stl(exported / "keycap-2u-mark-dark-1-black.stl")
+    _, one_unit_slash = read_binary_stl(exported / "keycap-1u-dark-2-red.stl")
+    _, mark_slash = read_binary_stl(exported / "keycap-2u-mark-dark-2-red.stl")
+
+    assert np.ptp(mark_body.reshape(-1, 3), axis=0) == pytest.approx(np.ptp(two_units.reshape(-1, 3), axis=0))
+    assert np.ptp(mark_slash.reshape(-1, 3), axis=0) == pytest.approx(np.ptp(one_unit_slash.reshape(-1, 3), axis=0))
 
 
 def test_keeps_the_filaments_of_the_keychain_logo(exported: Path) -> None:
