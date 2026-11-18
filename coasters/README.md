@@ -23,6 +23,7 @@ are made from the sliced toolpaths, so they show what comes out of the printer.
 | File | Description |
 | --- | --- |
 | `coasters.3mf` | Bambu Studio project: 4 plates (see below), colors and per-part settings already assigned |
+| `coasters-multipart.3mf` | Bambu Studio project for printers without AMS or with a smaller bed: one filament per plate (see below) |
 | `stl/*.stl` | One STL per coaster and filament, for other slicers, generated from `coasters.3mf` |
 | `images/*.png` | One render per coaster, generated from the sliced `coasters.3mf` |
 | `MAKERWORLD.md` | Description posted on MakerWorld |
@@ -47,6 +48,21 @@ The STL files and the renders only cover plates 1 and 2:
 $ uv run scripts/export_stl.py coasters/coasters.3mf --skip-plate 3 --skip-plate 4
 $ uv run scripts/render.py coasters/coasters.3mf --toolpaths --lighting side-low --skip-plate 3 --skip-plate 4
 ```
+
+### One filament per plate
+
+`coasters-multipart.3mf` prints the same pieces as the multi-piece plates, grouped by color instead of by coaster: each
+plate uses a single filament, so it needs no AMS, no filament change and no purge, and every plate fits a
+180 × 180 mm bed.
+
+| Plate | Filament | Content |
+| --- | --- | --- |
+| 1. `coaster-dark-multi` | Black | Dark coaster body, and the black slash of the light coaster |
+| 2. `coaster-light-multi` | White | Light coaster body, and the white slash of the dark coaster |
+| 3. `coaster-slash` | Red | The red slash, for one coaster: print it once per coaster |
+
+Glue each slash into the pocket of its color, printed side up. The pieces are the same as in `coasters.3mf`, so this
+project has no STL files or renders of its own.
 
 ## Print settings
 

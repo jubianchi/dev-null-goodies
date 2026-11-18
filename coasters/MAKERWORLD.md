@@ -43,3 +43,20 @@ Not part of the description: these go in the print profile form.
 - Coaster body: no top layers and 10% Hilbert curve infill, so the infill is the visible texture
 - Logo top surfaces ironed (flow 25%, spacing 0.1 mm, 25 mm/s)
 - Higher purge volumes when switching to white (750 from black, 650 from red) to keep the white clean
+
+### Second profile: one filament per plate
+
+Uploaded with `coasters-multipart.3mf`.
+
+**Name:** 0.2mm, no AMS needed, one color per plate
+
+**Description:**
+
+- No AMS needed: each plate prints with a single filament, without any filament change or purge
+- Fits every Bambu Lab printer, A1 mini included (each plate fits 180 × 180 mm)
+- Plate 1 (black): dark coaster body and the black slash of the light coaster
+- Plate 2 (white): light coaster body and the white slash of the dark coaster
+- Plate 3 (red): one red slash, print it once per coaster
+- Glue each slash into the pocket of its color, printed side up
+- Same settings as the main profile: Bambu PLA Basic black, Bambu PLA Matte red and white, 0.2 mm layers, no top
+  layers and 10% Hilbert curve infill on the bodies, ironed slashes
