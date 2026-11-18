@@ -114,6 +114,11 @@ def test_rejects_a_logo_larger_than_the_top_face() -> None:
         keycap_parts(1, fit_logo(read_logo(fixture_model()), 16, 16))
 
 
+def test_rejects_a_logo_reaching_the_chamfer_around_the_top_face() -> None:
+    with pytest.raises(ValueError, match="top face"):
+        keycap_parts(1, fit_logo(read_logo(fixture_model()), 14.5, 14.5))
+
+
 def test_finds_logo_parts_thinner_than_the_line_width() -> None:
     model = Model(
         "keychain-dark",

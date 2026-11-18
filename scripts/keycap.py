@@ -12,6 +12,7 @@ PITCH = 19.05
 BASE_GAP = 0.85
 HEIGHT = 8.0
 TOP_INSET = 1.6
+TOP_CHAMFER = 0.8
 TOP_THICKNESS = 1.5
 WALL = 1.2
 CORNER = 1.5
@@ -68,6 +69,38 @@ def _frustum(width: float, depth: float, inset: float, radius: float, height: fl
     )
 
 
+def _section(width: float, depth: float, inset: float, radius: float, height: float, z: float) -> CrossSection:
+    shrink = 2 * inset * z / height
+    return rounded_rectangle(width, depth, radius).scale(((width - shrink) / width, (depth - shrink) / depth))
+
+
+def _lifted(section: CrossSection, z: float) -> np.ndarray:
+    points = np.concatenate(section.to_polygons())
+    return np.column_stack([points, np.full(len(points), z)])
+
+
+def _chamfered_frustum(width: float, depth: float, inset: float, radius: float, height: float) -> Manifold:
+    shoulder = _section(width, depth, inset, radius, height, height - TOP_CHAMFER)
+    top = shoulder.offset(-TOP_CHAMFER, JoinType.Round, circular_segments=SEGMENTS)
+    return Manifold.hull_points(
+        np.concatenate(
+            [
+                _lifted(rounded_rectangle(width, depth, radius), 0),
+                _lifted(shoulder, height - TOP_CHAMFER),
+                _lifted(top, height),
+            ]
+        )
+    )
+
+
+def top_face(units: float) -> CrossSection:
+    """Return the flat top face of a keycap, inside its chamfer."""
+    width, depth = PITCH * units - BASE_GAP, PITCH - BASE_GAP
+    return _section(width, depth, TOP_INSET, CORNER, HEIGHT, HEIGHT - TOP_CHAMFER).offset(
+        -TOP_CHAMFER, JoinType.Round, circular_segments=SEGMENTS
+    )
+
+
 def _stem(clearance: float) -> Manifold:
     length = HEIGHT - TOP_THICKNESS - STEM_RECESS
     cylinder = Manifold.cylinder(length, STEM_DIAMETER / 2, circular_segments=SEGMENTS)
@@ -91,7 +124,7 @@ def keycap(units: float = 1, clearance: float = 0.05) -> Manifold:
     """Return a flat-top keycap upside down, top face on the plate (z = 0), opening upward."""
     offsets = stem_offsets(units)
     width, depth = PITCH * units - BASE_GAP, PITCH - BASE_GAP
-    outer = _frustum(width, depth, TOP_INSET, CORNER, HEIGHT)
+    outer = _chamfered_frustum(width, depth, TOP_INSET, CORNER, HEIGHT)
     inner_height = HEIGHT - TOP_THICKNESS
     inner_inset = TOP_INSET * inner_height / HEIGHT
     inner = _frustum(width - 2 * WALL, depth - 2 * WALL, inner_inset, max(CORNER - WALL, 0.2), inner_height)
@@ -183,10 +216,8 @@ def thicken_outlines(logo: Logo, width: float) -> Logo:
 
 def keycap_parts(units: float, logo: Logo, clearance: float = 0.05) -> dict[int, Manifold]:
     """Split the keycap into one solid per filament, the logo inlaid in the top face on the plate."""
-    width, depth = PITCH * units - BASE_GAP - 2 * TOP_INSET, PITCH - BASE_GAP - 2 * TOP_INSET
-    top_face = rounded_rectangle(width, depth, CORNER * width / (PITCH * units - BASE_GAP))
     outlines = CrossSection.batch_boolean([part.outline for part in logo.parts], OpType.Add)
-    if not (outlines - top_face).is_empty():
+    if not (outlines - top_face(units)).is_empty():
         raise ValueError("the logo does not fit on the top face of the keycap")
 
     covered = Manifold()
