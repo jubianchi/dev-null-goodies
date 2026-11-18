@@ -46,7 +46,7 @@ $ uv run scripts/render.py keycaps/keycaps.3mf --flip --skip-plate 5 --lighting 
 | | 1u | 2u |
 | --- | --- | --- |
 | Base | 18.2 × 18.2 mm | 37.25 × 18.2 mm |
-| Top | 15 × 15 mm, flat | 34.05 × 15 mm, flat |
+| Top | 13.7 × 13.7 mm, flat, with a 0.8 mm chamfer | 32.8 × 13.7 mm, flat, with a 0.8 mm chamfer |
 | Height | 8 mm, the same on every row | 8 mm, the same on every row |
 | Stems | 1 Cherry MX cross | 1 Cherry MX cross and 2 Cherry stabilizer crosses, 23.876 mm apart |
 | Logo | Mark, 11 × 9.75 mm, inlaid 0.6 mm deep | Mark and wordmark, 30 × 4.9 mm, inlaid 0.6 mm deep |

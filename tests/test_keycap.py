@@ -10,6 +10,7 @@ from keycap import (
     STABILIZER_SPACING,
     STEM_DIAMETER,
     STEM_RECESS,
+    TOP_CHAMFER,
     TOP_INSET,
     TOP_THICKNESS,
     WALL,
@@ -43,12 +44,23 @@ def test_is_a_single_watertight_solid(one_unit: Manifold) -> None:
     assert one_unit.volume() > 0
 
 
+SHOULDER = PITCH - BASE_GAP - 2 * TOP_INSET * (HEIGHT - TOP_CHAMFER) / HEIGHT
+
+
 def test_lies_upside_down_with_a_flat_top_on_the_plate(one_unit: Manifold) -> None:
-    top = PITCH - BASE_GAP - 2 * TOP_INSET
+    top = SHOULDER - 2 * TOP_CHAMFER
     face = one_unit.slice(PROBE)
 
     assert face.area() == pytest.approx(top**2, rel=0.03)
     assert face.num_contour() == 1
+
+
+def test_softens_the_top_edges_with_a_45_degree_chamfer(one_unit: Manifold) -> None:
+    halfway = one_unit.slice(TOP_CHAMFER / 2)
+    shoulder = one_unit.slice(TOP_CHAMFER)
+
+    assert halfway.bounds()[2] - halfway.bounds()[0] == pytest.approx(SHOULDER - TOP_CHAMFER, abs=0.02)
+    assert shoulder.bounds()[2] - shoulder.bounds()[0] == pytest.approx(SHOULDER, abs=0.02)
 
 
 def test_top_is_thick_enough_to_hold_an_inlaid_logo(one_unit: Manifold) -> None:
