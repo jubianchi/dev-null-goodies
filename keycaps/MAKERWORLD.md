@@ -12,7 +12,8 @@ These keycaps are based on the logo of [/dev/null](https://dev-null.sh), the soc
 
 ## What's in the 3MF
 
-- 4 keycaps: 1u (Escape or any other key) and 2u (Backspace), dark or light
+- 1u keycaps (Escape or any other key) and 2u keycaps (Backspace), dark or light
+- The 2u comes with the mark and the wordmark (0.2 mm nozzle), or with the mark only (0.4 mm nozzle)
 - A clearance test coupon, to tune the stem fit to your printer before printing the keycaps
 - Cherry MX stems, and Cherry stabilizer stems on the 2u
 
