@@ -33,8 +33,14 @@ Unofficial, fan-made model. /dev/null is an open-source project built by its com
 
 Not part of the description: these go in the print profile form.
 
-**Name:** TODO(print profile name)
+**Name:** 0.08mm, 3 colors, flush first layer
 
 **Description:**
 
-- TODO(print profile description, once the settings are validated with a test print)
+- Bambu PLA Basic: black, red, white
+- Printed upside down, top face on a textured PEI plate: no supports
+- 0.2 mm first layer, then 0.08 mm, 2 walls, 15% gyroid infill
+- 1u and 2u mark only: 0.4 mm nozzle; 2u mark and wordmark: 0.2 mm nozzle
+- First layer with one wall, 25% infill/wall overlap, 30 mm/s walls and 50 mm/s infill, no elephant foot compensation, so the color regions meet flush
+- Higher purge volumes when switching to white (750 from black, 650 from red) to keep the white clean
+- Print the clearance coupon first: the 0.05 mm default is validated on a Bambu Lab H2S
